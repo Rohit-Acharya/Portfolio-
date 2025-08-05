@@ -606,6 +606,41 @@
 
     <script>
         // Toggle mobile navigation menu
+        
+document.getElementById("contactForm").addEventListener("submit", async function (e) {
+    e.preventDefault(); // prevent page reload
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const subject = document.getElementById("subject").value;
+    const message = document.getElementById("message").value;
+
+    try {
+        const response = await fetch("http://localhost:4000/sendmail", { // Change port if needed
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                subject,
+                message
+            })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert("Message sent successfully! 📬");
+        } else {
+            alert("Failed to send message ❌: " + result.error);
+        }
+
+    } catch (error) {
+        alert("Error connecting to server 🔌: " + error.message);
+    }
+});
+
         function toggleNav() {
             const navLinks = document.getElementById('nav-links');
             navLinks.classList.toggle('active');
