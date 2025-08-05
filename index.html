@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohit Rajesh Acharya | Electrical Engineering Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html{
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #050d1a 0%, #0d1a2e 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+            position: relative;
+            scroll-behavior: smooth;
+        }
+        .text-neon-blue {
+            color: #4a90e2;
+        }
+        .border-neon-blue {
+            border-color: #4a90e2;
+        }
+        .hover-glow:hover {
+            box-shadow: 0 0 25px rgba(74, 144, 226, 0.7);
+            transform: translateY(-8px);
+        }
+        .card-bg {
+            background-color: rgba(13, 26, 46, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(74, 144, 226, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.7;
+        }
+        .scroll-down {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+        .hamburger-icon {
+            cursor: pointer;
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+        }
+        .hamburger-icon .bar {
+            width: 100%;
+            height: 3px;
+            background-color: #4a90e2;
+            transition: all 0.3s ease-in-out;
+        }
+        @media (max-width: 768px) {
+            .hamburger-icon { display: flex; }
+            .nav-links-container {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: rgba(15, 23, 42, 0.9);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                padding: 1rem 0;
+            }
+            .nav-links-container.active { display: flex; }
+            .nav-links-container a { padding: 0.75rem 0; text-align: center; }
+        }
+        .nav-link.active {
+            color: #fff;
+            border-bottom: 2px solid #fff;
+        }
+        section {
+            min-height: 100vh;
+            padding-top: 8rem;
+            padding-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .section-content {
+            width: 100%;
+            max-width: 1200px;
+            text-align: left;
+        }
+        .resume-button {
+            border: 2px solid #4a90e2;
+            background-color: transparent;
+            color: #4a90e2;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease-in-out;
+        }
+        .resume-button:hover {
+            background-color: #4a90e2;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(74, 144, 226, 0.7);
+        }
+        .skill-meter {
+            height: 6px;
+            background: rgba(74, 144, 226, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .skill-level {
+            height: 100%;
+            background: #4a90e2;
+            border-radius: 3px;
+            width: 0;
+            transition: width 1.5s ease-out;
+        }
+        .project-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 26, 46, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        .coursework-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+    <!-- Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation Bar -->
+    <nav class="bg-gray-900 bg-opacity-70 backdrop-blur-md sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4 py-4 md:py-6 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-extrabold text-neon-blue hover:text-white transition-colors duration-300">
+                Rohit Acharya
+            </a>
+            <div class="hamburger-icon md:hidden" onclick="toggleNav()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div id="nav-links" class="nav-links-container md:flex md:space-x-8 text-lg font-medium">
+                <a href="#home" class="nav-link text-gray-400 hover:text-neon-blue transition-colors duration-300">Home</a>
+                <a href="#about" class="nav-link text-gray-400 hover:text-neon-blue transition-colors duration-300">About</a>
+                <a href="#education" class="nav-link text-gray-400 hover:text-neon-blue transition-colors duration-300">Education</a>
+                <a href="#projects" class="nav-link text-gray-400 hover:text-neon-blue transition-colors duration-300">Projects</a>
+                <a href="#skills" class="nav-link text-gray-400 hover:text-neon-blue transition-colors duration-300">Skills</a>
+                <a href="#contact" class="nav-link text-gray-400 hover:text-neon-blue transition-colors duration-300">Contact</a>
+                <button onclick="window.open('#', '_blank')" class="resume-button">
+                    Download Resume
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-8 md:p-12 relative z-10">
+
+        <!-- Home Section -->
+        <section id="home" class="flex justify-center items-center text-center">
+            <div class="text-center section-content">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight tracking-wider transition-colors duration-500 drop-shadow-lg">
+                    Rohit Rajesh Acharya
+                </h1>
+                <p class="mt-4 md:mt-6 text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
+                    Electrical Engineering Student at IITRAM | Specializing in Power Systems and Circuit Design
+                </p>
+                <div class="mt-8 flex justify-center space-x-6">
+                    <a href="https://www.linkedin.com/in/rohit-acharya-a38732293" class="text-gray-400 hover:text-neon-blue transition-all duration-300 transform hover:scale-110">
+                        <i class="fab fa-linkedin-in text-3xl"></i>
+                    </a>
+                    <a href="mailto:rohitacharya051005@gmail.com" class="text-gray-400 hover:text-neon-blue transition-all duration-300 transform hover:scale-110">
+                        <i class="fas fa-envelope text-3xl"></i>
+                    </a>
+                    <a href="tel:+919426927945" class="text-gray-400 hover:text-neon-blue transition-all duration-300 transform hover:scale-110">
+                        <i class="fas fa-phone-alt text-3xl"></i>
+                    </a>
+                </div>
+                <div class="mt-16 flex justify-center">
+                    <a href="#about" class="scroll-down text-neon-blue">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L12 22M12 22L16 18M12 22L8 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="flex justify-center items-center">
+            <div class="section-content">
+                <h2 class="text-3xl font-bold text-neon-blue mb-8 border-b-2 border-neon-blue pb-2">About Me</h2>
+                <div class="card-bg p-8 rounded-xl shadow-lg flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+                    <div class="flex-shrink-0">
+                        <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&h=500&q=80" alt="Rohit Acharya" class="w-40 h-40 rounded-full object-cover border-4 border-neon-blue hover:border-white transition-colors duration-300">
+                    </div>
+                    <div class="p-6">
+                        <p class="text-lg text-gray-300">
+                            A proactive and detail-oriented Electrical Engineering student at IITRAM with a strong academic foundation in electrical circuits, electronics, and power systems. Seeking internship opportunities to enhance practical skills and contribute to innovative engineering solutions.
+                        </p>
+                        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-neon-blue mt-1 mr-3"></i>
+                                <div>
+                                    <p class="font-semibold">Location</p>
+                                    <p class="text-gray-400">Ahmedabad, Gujarat, India</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-graduation-cap text-neon-blue mt-1 mr-3"></i>
+                                <div>
+                                    <p class="font-semibold">Education</p>
+                                    <p class="text-gray-400">B.Tech in Electrical Engineering</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-university text-neon-blue mt-1 mr-3"></i>
+                                <div>
+                                    <p class="font-semibold">Institute</p>
+                                    <p class="text-gray-400">IITRAM, Ahmedabad</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-calendar-alt text-neon-blue mt-1 mr-3"></i>
+                                <div>
+                                    <p class="font-semibold">Graduation</p>
+                                    <p class="text-gray-400">Expected 2027</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="flex justify-center items-center">
+            <div class="section-content">
+                <h2 class="text-3xl font-bold text-neon-blue mb-8 border-b-2 border-neon-blue pb-2">Education</h2>
+                
+                <div class="card-bg p-8 rounded-xl shadow-lg hover-glow">
+                    <div class="flex flex-col md:flex-row justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Bachelor of Technology in Electrical Engineering</h3>
+                            <p class="text-neon-blue mt-1">Institute of Infrastructure Technology Research and Management (IITRAM), Ahmedabad</p>
+                        </div>
+                        <div class="mt-4 md:mt-0 text-right">
+                            <p class="text-gray-400">Expected Graduation: 2027</p>
+                            <p class="text-gray-400">Current CGPA: 8.05/10</p>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-xl font-semibold text-neon-blue mt-6 mb-3">Relevant Coursework</h4>
+                    <div class="coursework-grid">
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-neon-blue mt-1 mr-2"></i>
+                            <span class="text-gray-300">Network Theory</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-neon-blue mt-1 mr-2"></i>
+                            <span class="text-gray-300">Electronic Devices and Circuits</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-neon-blue mt-1 mr-2"></i>
+                            <span class="text-gray-300">Signals and Systems</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-neon-blue mt-1 mr-2"></i>
+                            <span class="text-gray-300">Instrumentation and Measurements</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-neon-blue mt-1 mr-2"></i>
+                            <span class="text-gray-300">Power Systems</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-neon-blue mt-1 mr-2"></i>
+                            <span class="text-gray-300">Electrical Machines</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-neon-blue mt-1 mr-2"></i>
+                            <span class="text-gray-300">Digital Systems</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-check-circle text-neon-blue mt-1 mr-2"></i>
+                            <span class="text-gray-300">Linear Integrated Circuits</span>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-xl font-semibold text-neon-blue mt-6 mb-3">Achievements</h4>
+                    <ul class="text-gray-300 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-trophy text-neon-blue mt-1 mr-2"></i>
+                            <span>Dean's Certificate on Academic Excellence</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-certificate text-neon-blue mt-1 mr-2"></i>
+                            <span>Certification in "Machine Learning with Python, A Hands-on Approach" by COE-AIML IITRAM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="flex justify-center items-center">
+            <div class="section-content">
+                <h2 class="text-3xl font-bold text-neon-blue mb-8 border-b-2 border-neon-blue pb-2">Projects</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card-bg rounded-xl shadow-lg overflow-hidden project-card hover-glow">
+                        <img src="https://images.unsplash.com/photo-1598880940080-ff9a29891b85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Automatic Plant Watering System" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-neon-blue">Op-Amp Based Automatic Plant Watering System</h3>
+                            <p class="text-gray-400 mt-2">
+                                Designed and implemented a system using operational amplifiers to monitor soil moisture and automate plant watering.
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-xs text-neon-blue">Op-Amps</span>
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-xs text-neon-blue">Sensors</span>
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-xs text-neon-blue">Automation</span>
+                            </div>
+                        </div>
+                        <div class="project-overlay">
+                            <h4 class="text-xl font-bold text-white mb-2">Key Features</h4>
+                            <ul class="text-gray-300 text-sm text-center px-4">
+                                <li>• Soil moisture sensing circuit</li>
+                                <li>• Comparator-based activation</li>
+                                <li>• Low-power design</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card-bg rounded-xl shadow-lg overflow-hidden project-card hover-glow">
+                        <img src="https://images.unsplash.com/photo-1625014618427-fbc980b974f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Circuit Design" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-neon-blue">Circuit Simulation Projects</h3>
+                            <p class="text-gray-400 mt-2">
+                                Various circuit design and simulation projects using Tinkercad and MATLAB Simulink.
+                            </p>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-xs text-neon-blue">Tinkercad</span>
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-xs text-neon-blue">Simulink</span>
+                                <span class="px-3 py-1 bg-gray-800 rounded-full text-xs text-neon-blue">Circuit Design</span>
+                            </div>
+                        </div>
+                        <div class="project-overlay">
+                            <h4 class="text-xl font-bold text-white mb-2">Project Types</h4>
+                            <ul class="text-gray-300 text-sm text-center px-4">
+                                <li>• Power electronics circuits</li>
+                                <li>• Signal processing simulations</li>
+                                <li>• Control system implementations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 card-bg p-6 rounded-xl shadow-lg hover-glow">
+                    <h3 class="text-xl font-bold text-neon-blue">Ongoing Research Interests</h3>
+                    <p class="text-gray-300 mt-2">
+                        Actively exploring power generation, transmission, and distribution systems with focus on:
+                    </p>
+                    <ul class="mt-3 text-gray-300 list-disc list-inside space-y-1">
+                        <li>Renewable energy integration in power grids</li>
+                        <li>Smart grid technologies</li>
+                        <li>Efficient power transmission methods</li>
+                        <li>Advanced electrical machine designs</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="flex justify-center items-center">
+            <div class="section-content">
+                <h2 class="text-3xl font-bold text-neon-blue mb-8 border-b-2 border-neon-blue pb-2">Technical Skills</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="card-bg p-6 rounded-xl shadow-lg hover-glow">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <i class="fas fa-code text-3xl text-neon-blue"></i>
+                            <h3 class="text-xl font-semibold text-gray-200">Programming & Software</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between">
+                                    <span>Python</span>
+                                    <span>75%</span>
+                                </div>
+                                <!-- <div class="skill-meter">
+                                    <div class="skill-level" data-level="75"></div>
+                                </div> -->
+                            </div>
+                            <div>
+                                <div class="flex justify-between">
+                                    <span>MATLAB</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="skill-meter">
+                                    <div class="skill-level" data-level="80"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between">
+                                    <span>Simulink</span>
+                                    <span>85%</span>
+                                </div>
+                                <div class="skill-meter">
+                                    <div class="skill-level" data-level="85"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between">
+                                    <span>Tinkercad</span>
+                                    <span>90%</span>
+                                </div>
+                                <div class="skill-meter">
+                                    <div class="skill-level" data-level="90"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-bg p-6 rounded-xl shadow-lg hover-glow">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <i class="fas fa-tools text-3xl text-neon-blue"></i>
+                            <h3 class="text-xl font-semibold text-gray-200">Hardware & Equipment</h3>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <span class="text-gray-300">Oscilloscopes</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <span class="text-gray-300">Sensors</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <span class="text-gray-300">Transducers</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <span class="text-gray-300">Multimeters</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <span class="text-gray-300">Power Supplies</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <span class="text-gray-300">Function Generators</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 card-bg p-6 rounded-xl shadow-lg hover-glow">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <i class="fas fa-heart text-xl text-neon-blue"></i>
+                        <h3 class="text-lg font-semibold text-gray-200">Hobbies & Interests</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-microchip text-neon-blue mr-3"></i>
+                            <span class="text-gray-300">Circuit Simulation and Design</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-bolt text-neon-blue mr-3"></i>
+                            <span class="text-gray-300">Power Generation Systems</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-plug text-neon-blue mr-3"></i>
+                            <span class="text-gray-300">Transmission Technologies</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-industry text-neon-blue mr-3"></i>
+                            <span class="text-gray-300">Electrical Machines</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="flex justify-center items-center">
+            <div class="section-content">
+                <h2 class="text-3xl font-bold text-neon-blue mb-8 border-b-2 border-neon-blue pb-2">Get In Touch</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-4">Contact Information</h3>
+                        <p class="text-gray-300 mb-6">
+                            I'm actively seeking internship opportunities for 2026 and would love to discuss how I can contribute to your organization. Feel free to reach out through any of these channels:
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-envelope text-neon-blue mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold">Email</h4>
+                                    <a href="mailto:rohitacharya051005@gmail.com" class="text-gray-400 hover:text-neon-blue">rohitacharya051005@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-phone-alt text-neon-blue mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold">Phone</h4>
+                                    <a href="tel:+919426927945" class="text-gray-400 hover:text-neon-blue">+91 9426927945</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fab fa-linkedin text-neon-blue mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold">LinkedIn</h4>
+                                    <a href="https://www.linkedin.com/in/rohit-acharya-a38732293" class="text-gray-400 hover:text-neon-blue">linkedin.com/in/rohit-acharya-a38732293</a>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-neon-blue mt-1 mr-4"></i>
+                                <div>
+                                    <h4 class="font-semibold">Address</h4>
+                                    <p class="text-gray-400">Parishkaar 1, Khokhara Circle<br>Maninagar, Ahmedabad<br>Gujarat 380008, India</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <form class="card-bg p-8 rounded-xl shadow-lg">
+                            <div class="mb-4">
+                                <label for="name" class="block text-gray-300 font-semibold mb-2">Your Name</label>
+                                <input type="text" id="name" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue">
+                            </div>
+                            <div class="mb-4">
+                                <label for="email" class="block text-gray-300 font-semibold mb-2">Your Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue">
+                            </div>
+                            <div class="mb-4">
+                                <label for="subject" class="block text-gray-300 font-semibold mb-2">Subject</label>
+                                <input type="text" id="subject" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue">
+                            </div>
+                            <div class="mb-6">
+                                <label for="message" class="block text-gray-300 font-semibold mb-2">Message</label>
+                                <textarea id="message" rows="4" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-neon-blue text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors duration-300">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-8 text-center text-gray-500 text-sm bg-transparent border-t border-neon-blue relative z-10">
+        <div class="container mx-auto">
+            <p>&copy; 2024 Rohit Rajesh Acharya. All rights reserved.</p>
+            <p class="mt-2">Designed with passion for electrical engineering</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile navigation menu
+        function toggleNav() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Highlight active nav link on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section[id]');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Animate skill meters when scrolled into view
+        function animateSkillMeters() {
+            const skillLevels = document.querySelectorAll('.skill-level');
+            skillLevels.forEach(level => {
+                if (isElementInViewport(level) && level.style.width === '') {
+                    const width = level.getAttribute('data-level') + '%';
+                    level.style.width = width;
+                }
+            });
+        }
+
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        window.addEventListener('scroll', animateSkillMeters);
+        window.addEventListener('load', animateSkillMeters);
+
+        // Background Animation Script
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let equations = [];
+        const maxParticles = 100;
+        const particleSpeed = 0.5;
+
+        // Resize canvas to full screen
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        // Electrical engineering equations
+        const electricalEquations = [
+            `V=IR`, `P=VI`, `Q=CV`, `X_C=1/(2πfC)`, `X_L=2πfL`,
+            `Z=√(R²+X²)`, `τ=RC`, `PF=P/S`, `η=P_out/P_in`, `ω=2πf`,
+            `B=μH`, `H=NI/l`, `∇×E=-∂B/∂t`, `∇·D=ρ`, `P=I²R`
+        ];
+
+        // Equation particle class
+        class Equation {
+            constructor() {
+                this.text = electricalEquations[Math.floor(Math.random() * electricalEquations.length)];
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.2;
+                this.vy = (Math.random() - 0.5) * 0.2;
+                this.size = Math.random() * 20 + 10;
+                this.opacity = 0;
+                this.fadeIn = true;
+                this.fadeOut = false;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.fadeIn) {
+                    this.opacity += 0.005;
+                    if (this.opacity >= 0.7) {
+                        this.fadeIn = false;
+                        setTimeout(() => this.fadeOut = true, 5000);
+                    }
+                } else if (this.fadeOut) {
+                    this.opacity -= 0.005;
+                    if (this.opacity <= 0) {
+                        this.reset();
+                    }
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = `#4a90e2`;
+                ctx.font = `${this.size}px Inter`;
+                ctx.fillText(this.text, this.x, this.y);
+                ctx.restore();
+            }
+            reset() {
+                this.text = electricalEquations[Math.floor(Math.random() * electricalEquations.length)];
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.2;
+                this.vy = (Math.random() - 0.5) * 0.2;
+                this.size = Math.random() * 20 + 10;
+                this.opacity = 0;
+                this.fadeIn = true;
+                this.fadeOut = false;
+            }
+        }
+
+        // Particle class
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * particleSpeed;
+                this.vy = (Math.random() - 0.5) * particleSpeed;
+                this.size = Math.random() * 2 + 1;
+                this.color = '#4a90e2';
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles and equations
+        function init() {
+            particles = [];
+            for (let i = 0; i < maxParticles; i++) {
+                particles.push(new Particle());
+            }
+            equations = [];
+            for (let i = 0; i < 4; i++) {
+                equations.push(new Equation());
+            }
+        }
+
+        // Connect particles with lines
+        function connectParticles() {
+            let opacity = 1;
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    let dx = particles[a].x - particles[b].x;
+                    let dy = particles[a].y - particles[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        opacity = 1 - (distance / 100);
+                        ctx.strokeStyle = `rgba(74, 144, 226, ${opacity})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, width, height);
+
+            connectParticles();
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            equations.forEach(eq => {
+                eq.update();
+                eq.draw();
+            });
+        }
+
+        // Event listeners
+        window.addEventListener('resize', resizeCanvas);
+        window.onload = function() {
+            resizeCanvas();
+            init();
+            animate();
+        };
+    </script>
+</body>
+</html>
