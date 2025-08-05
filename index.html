@@ -616,7 +616,7 @@ document.getElementById("contactForm").addEventListener("submit", async function
     const message = document.getElementById("message").value;
 
     try {
-        const response = await fetch("http://localhost:4000/sendmail", { // Change port if needed
+        const response = await fetch("http://localhost:4000/api/messages/sendmail", { // Change port if needed
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
