@@ -630,10 +630,13 @@ document.getElementById("contactForm").addEventListener("submit", async function
         });
 
         const result = await response.json();
+        console.log("Server Response:", result);
+
         if (response.ok) {
             alert("Message sent successfully! 📬");
         } else {
-            alert("Failed to send message ❌: " + result.error);
+             console.error("Frontend Fetch Error:", error);
+    alert("Error connecting to server 🔌: " + error.message);
         }
 
     } catch (error) {
