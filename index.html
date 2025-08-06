@@ -4,23 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rohit Rajesh Acharya | Electrical Engineering Portfolio</title>
-    <meta name="description" content="Rohit Acharya, a passionate Electrical and Computer Science Engineering student at IITRAM. Projects, resume, and contact.">
-<meta name="keywords" content="Rohit Acharya, IITRAM, Electrical Engineering, Computer Science, Engineer Portfolio, Power Electronics, Microprocessor Projects, Arduino, Embedded Systems, Rohit Rajesh Acharya, Resume, Engineering Student, Ahmedabad, Robotics, Control Systems, Electrical Portfolio, 8085 Projects, Smart Attendance System, Inspire Award, Vikalp India, Rohit IITRAM">
-<meta name="author" content="Rohit Acharya">
     <!-- Tailwind CSS CDN -->
-     <link rel="icon" href="/circel.jpg" type="image/x-icon">
-
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="profile.jpg" type="image/png" />
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        html{
-            scroll-behavior: smooth;
-        }
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #050d1a 0%, #0d1a2e 100%);
@@ -124,20 +118,6 @@
             color: #fff;
             box-shadow: 0 0 15px rgba(74, 144, 226, 0.7);
         }
-        .skill-meter {
-            height: 6px;
-            background: rgba(74, 144, 226, 0.2);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-        .skill-level {
-            height: 100%;
-            background: #4a90e2;
-            border-radius: 3px;
-            width: 0;
-            transition: width 1.5s ease-out;
-        }
         .project-card {
             position: relative;
             overflow: hidden;
@@ -164,6 +144,111 @@
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1rem;
         }
+        
+        /* Message Sent Animation */
+        .sent-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .sent-animation.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .sent-content {
+            background: #0d1a2e;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #4a90e2;
+            max-width: 400px;
+            width: 90%;
+        }
+        .checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 5;
+            stroke: #4a90e2;
+            stroke-miterlimit: 10;
+            margin: 0 auto 20px;
+            animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
+        }
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 5;
+            stroke-miterlimit: 10;
+            stroke: #4a90e2;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+        @keyframes stroke {
+            100% { stroke-dashoffset: 0; }
+        }
+        @keyframes scale {
+            0%, 100% { transform: none; }
+            50% { transform: scale3d(1.1, 1.1, 1); }
+        }
+        @keyframes fill {
+            100% { box-shadow: inset 0px 0px 0px 30px rgba(13, 26, 46, 0); }
+        }
+        
+        /* Error Message */
+        #errorMessage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #errorMessage.active {
+            display: flex;
+            opacity: 1;
+        }
+        .error-content {
+            background: #0d1a2e;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #ff4444;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        /* Fix for scrollbar issue */
+        html {
+            overflow-y: scroll;
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none; /* For IE and Edge */
+        }
+        html::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
     </style>
 </head>
 <body class="text-gray-200">
@@ -188,8 +273,8 @@
                 <a href="#projects" class="nav-link text-gray-400 hover:text-neon-blue transition-colors duration-300">Projects</a>
                 <a href="#skills" class="nav-link text-gray-400 hover:text-neon-blue transition-colors duration-300">Skills</a>
                 <a href="#contact" class="nav-link text-gray-400 hover:text-neon-blue transition-colors duration-300">Contact</a>
-                <a href="/resume.pdf" download class="resume-button">
-    Download Resume
+                <a href="resume.pdf" download class="resume-button">
+    <button>Download Resume</button>
 </a>
 
             </div>
@@ -206,7 +291,7 @@
                     Rohit Rajesh Acharya
                 </h1>
                 <p class="mt-4 md:mt-6 text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
-                    Electrical Engineering Student at IITRAM | Specializing in Power Systems and Circuit Design
+                    Electrical Engineering Student at IITRAM | Passionate about Power Systems and Circuit Design
                 </p>
                 <div class="mt-8 flex justify-center space-x-6">
                     <a href="https://www.linkedin.com/in/rohit-acharya-a38732293" class="text-gray-400 hover:text-neon-blue transition-all duration-300 transform hover:scale-110">
@@ -235,11 +320,14 @@
                 <h2 class="text-3xl font-bold text-neon-blue mb-8 border-b-2 border-neon-blue pb-2">About Me</h2>
                 <div class="card-bg p-8 rounded-xl shadow-lg flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
                     <div class="flex-shrink-0">
-                        <img src="/profile.jpg" alt="Rohit Acharya" class="w-40 h-40 rounded-full object-cover border-4 border-neon-blue hover:border-white transition-colors duration-300">
+                        <img src="circel.jpg" alt="Rohit Acharya" class="w-40 h-40 rounded-full object-cover border-4 border-neon-blue hover:border-white transition-colors duration-300">
                     </div>
                     <div class="p-6">
                         <p class="text-lg text-gray-300">
-                            A proactive and detail-oriented Electrical Engineering student at IITRAM with a strong academic foundation in electrical circuits, electronics, and power systems. Seeking internship opportunities to enhance practical skills and contribute to innovative engineering solutions.
+                            I am an enthusiastic Electrical Engineering student at IITRAM with a deep passion for power systems and circuit design. My journey in engineering is driven by curiosity and a desire to solve complex problems through innovative solutions. With hands-on experience in various electrical instruments and simulation tools, I'm constantly exploring the fascinating world of electricity and electronics.
+                        </p>
+                        <p class="text-lg text-gray-300 mt-4">
+                            Beyond academics, I enjoy working on practical projects that bridge the gap between theory and real-world applications. My goal is to contribute to sustainable energy solutions and smart grid technologies that can transform our power infrastructure.
                         </p>
                         <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="flex items-start">
@@ -423,44 +511,24 @@
                             <i class="fas fa-code text-3xl text-neon-blue"></i>
                             <h3 class="text-xl font-semibold text-gray-200">Programming & Software</h3>
                         </div>
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between">
-                                    <span>Python</span>
-                                    <span>75%</span>
-                                </div>
-                                <!-- <div class="skill-meter">
-                                    <div class="skill-level" data-level="75"></div>
-                                </div> -->
-                            </div>
-                            <div>
-                                <div class="flex justify-between">
-                                    <span>MATLAB</span>
-                                    <span>80%</span>
-                                </div>
-                                <div class="skill-meter">
-                                    <div class="skill-level" data-level="80"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between">
-                                    <span>Simulink</span>
-                                    <span>85%</span>
-                                </div>
-                                <div class="skill-meter">
-                                    <div class="skill-level" data-level="85"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between">
-                                    <span>Tinkercad</span>
-                                    <span>90%</span>
-                                </div>
-                                <div class="skill-meter">
-                                    <div class="skill-level" data-level="90"></div>
-                                </div>
-                            </div>
-                        </div>
+                        <ul class="text-gray-300 space-y-3">
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
+                                <span>Python (Intermediate)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
+                                <span>MATLAB (Advanced)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
+                                <span>Simulink (Advanced)</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
+                                <span>Tinkercad (Expert)</span>
+                            </li>
+                        </ul>
                     </div>
                     
                     <div class="card-bg p-6 rounded-xl shadow-lg hover-glow">
@@ -470,27 +538,27 @@
                         </div>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="flex items-center">
-                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
                                 <span class="text-gray-300">Oscilloscopes</span>
                             </div>
                             <div class="flex items-center">
-                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
                                 <span class="text-gray-300">Sensors</span>
                             </div>
                             <div class="flex items-center">
-                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
                                 <span class="text-gray-300">Transducers</span>
                             </div>
                             <div class="flex items-center">
-                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
                                 <span class="text-gray-300">Multimeters</span>
                             </div>
                             <div class="flex items-center">
-                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
                                 <span class="text-gray-300">Power Supplies</span>
                             </div>
                             <div class="flex items-center">
-                                <i class="fas fa-check-circle text-neon-blue mr-2"></i>
+                                <i class="fas fa-check text-neon-blue mr-2"></i>
                                 <span class="text-gray-300">Function Generators</span>
                             </div>
                         </div>
@@ -569,22 +637,22 @@
                     </div>
                     
                     <div>
-                        <form id="contactForm" class="card-bg p-8 rounded-xl shadow-lg">
+                        <form id="contactForm" action="send_email.php" method="POST" class="card-bg p-8 rounded-xl shadow-lg">
                             <div class="mb-4">
                                 <label for="name" class="block text-gray-300 font-semibold mb-2">Your Name</label>
-                                <input type="text" id="name" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue">
+                                <input type="text" id="name" name="name" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue" required>
                             </div>
                             <div class="mb-4">
                                 <label for="email" class="block text-gray-300 font-semibold mb-2">Your Email</label>
-                                <input type="email" id="email" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue">
+                                <input type="email" id="email" name="email" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue" required>
                             </div>
                             <div class="mb-4">
                                 <label for="subject" class="block text-gray-300 font-semibold mb-2">Subject</label>
-                                <input type="text" id="subject" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue">
+                                <input type="text" id="subject" name="subject" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue" required>
                             </div>
                             <div class="mb-6">
                                 <label for="message" class="block text-gray-300 font-semibold mb-2">Message</label>
-                                <textarea id="message" rows="4" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue"></textarea>
+                                <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-neon-blue" required></textarea>
                             </div>
                             <button type="submit" class="w-full bg-neon-blue text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors duration-300">
                                 Send Message
@@ -596,54 +664,37 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="p-8 text-center text-gray-500 text-sm bg-transparent border-t border-neon-blue relative z-10">
-        <div class="container mx-auto">
-            <p>&copy; 2024 Rohit Rajesh Acharya. All rights reserved.</p>
-            <p class="mt-2">Designed with passion for electrical engineering</p>
+    <!-- Message Sent Animation -->
+    <div id="sentAnimation" class="sent-animation">
+        <div class="sent-content">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+            <h3 class="text-2xl font-bold text-neon-blue mb-2">Message Sent!</h3>
+            <p class="text-gray-300">Thank you for reaching out. I'll get back to you soon.</p>
+            <button onclick="closeSentAnimation()" class="mt-4 px-6 py-2 border border-neon-blue text-neon-blue rounded-lg hover:bg-neon-blue hover:text-white transition-colors duration-300">
+                Close
+            </button>
         </div>
-    </footer>
+    </div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" class="hidden">
+        <div class="error-content">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-red-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="text-2xl font-bold text-red-500 mb-2">Error Sending Message</h3>
+            <p class="text-gray-300" id="errorText">There was a problem sending your message. Please try again later.</p>
+            <button onclick="closeErrorMessage()" class="mt-4 px-6 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors duration-300">
+                Close
+            </button>
+        </div>
+    </div>
 
     <script>
         // Toggle mobile navigation menu
-        
-document.getElementById("contactForm").addEventListener("submit", async function (e) {
-    e.preventDefault(); // prevent page reload
-
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const subject = document.getElementById("subject").value;
-    const message = document.getElementById("message").value;
-
-    try {
-        const response = await fetch("https://hospital-management-3-i8wn.onrender.com/api/messagesrohit/sendmailrohit", { // Change port if needed
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                subject,
-                message
-            })
-        });
-
-        const result = await response.json();
-        console.log("Server Response:", result);
-
-        if (response.ok) {
-            alert("Message sent successfully! 📬");
-        } else {
-             console.error("Frontend Fetch Error:", error);
-    alert("Error connecting to server 🔌: " + error.message);
-        }
-
-    } catch (error) {
-        alert("Error connecting to server 🔌: " + error.message);
-    }
-});
-
         function toggleNav() {
             const navLinks = document.getElementById('nav-links');
             navLinks.classList.toggle('active');
@@ -670,29 +721,59 @@ document.getElementById("contactForm").addEventListener("submit", async function
             });
         });
 
-        // Animate skill meters when scrolled into view
-        function animateSkillMeters() {
-            const skillLevels = document.querySelectorAll('.skill-level');
-            skillLevels.forEach(level => {
-                if (isElementInViewport(level) && level.style.width === '') {
-                    const width = level.getAttribute('data-level') + '%';
-                    level.style.width = width;
+        // Handle form submission with AJAX
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Send AJAX request
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success animation
+                    document.getElementById('sentAnimation').classList.add('active');
+                    // Reset form
+                    this.reset();
+                } else {
+                    // Show error message
+                    document.getElementById('errorText').textContent = data.message || 'There was a problem sending your message. Please try again later.';
+                    document.getElementById('errorMessage').classList.remove('hidden');
+                    document.getElementById('errorMessage').classList.add('active');
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('errorText').textContent = 'There was a problem sending your message. Please try again later.';
+                document.getElementById('errorMessage').classList.remove('hidden');
+                document.getElementById('errorMessage').classList.add('active');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Send Message';
             });
+        });
+
+        function closeSentAnimation() {
+            document.getElementById('sentAnimation').classList.remove('active');
         }
 
-        function isElementInViewport(el) {
-            const rect = el.getBoundingClientRect();
-            return (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
+        function closeErrorMessage() {
+            document.getElementById('errorMessage').classList.remove('active');
+            setTimeout(() => {
+                document.getElementById('errorMessage').classList.add('hidden');
+            }, 300);
         }
-
-        window.addEventListener('scroll', animateSkillMeters);
-        window.addEventListener('load', animateSkillMeters);
 
         // Background Animation Script
         const canvas = document.getElementById('bg-canvas');
@@ -847,11 +928,17 @@ document.getElementById("contactForm").addEventListener("submit", async function
 
         // Event listeners
         window.addEventListener('resize', resizeCanvas);
-        window.onload = function() {
+        window.addEventListener('load', function() {
             resizeCanvas();
             init();
             animate();
-        };
+            
+            // Fix for initial scroll issue
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+                document.documentElement.style.overflow = 'auto';
+            }, 100);
+        });
     </script>
 </body>
 </html>
